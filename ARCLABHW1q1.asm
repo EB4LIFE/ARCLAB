@@ -16,8 +16,10 @@ la $a0 Array 1
 la $a1 Array 2
 
 Loopstart:
-lw $t0 ($a0) #copied address into $t0 
-sw $t0 ($a1) #saving it "pasting" int0 $a1
+lw $t0 ($a0) 
+#copied address into $t0 
+sw $t0 ($a1) 
+#saving it "pasting" into $a1
 
 beq $t0 $zero exit 
 #line 22 if copied value is zero , it will be the last one copied but not counted so we exit here.

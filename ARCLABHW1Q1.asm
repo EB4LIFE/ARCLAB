@@ -12,10 +12,10 @@ Array1: .word 1, 7, 4, 6, 5, 0, 8, 3 #first array filled with blocks of words
 Array2: .space 240 #empty array of adresses without values 
 
 .text
-la $a0 Array 1
-la $a1 Array 2
+la $a0 Array1
+la $a1 Array2
 
-Loopstart:
+loopstart:
 lw $t0 ($a0) 
 #copied address into $t0 
 sw $t0 ($a1) 
@@ -30,6 +30,6 @@ addi $v0 $v0 1
 addi $a0 $a0 4
 addi $a1 $a1 4
 
-j loop
+j loopstart
 
-exit
+exit;

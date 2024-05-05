@@ -5,28 +5,9 @@
 #When the value 0 is entered, the program stops and prints the sum on the screen. 
 #Note: You must verify that the number is between -99 and +99. For the purposes of this program, consider single digit numbers as the same as two digit numbers.
 
-.data
-
-prompt: asciiz "Enter a number between-99 and 99:\n"
-error: asciiz "Number must be between-99 and 991\n"
-result: .asciiz "Sum of numbers is
-
-
-.text
-
-loop:
-#Prompt for user input
-la $a0 prompt
-addi $vo $zero 4
-syscall
-
-#Read user input
-addi $v0 $zero 5
-syscall
-
-
 #If input is 0, exit loop
 beq $v0 $zero exit
+
 #Check if input is between -99 and 99
 slti $to $v0 -99
 slti $t1 $v0 100

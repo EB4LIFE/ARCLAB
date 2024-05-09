@@ -12,45 +12,36 @@ invalid: .asciiz "Invalid input: "
 result: .asciiz "The sum is: "
 
 .text
-
 sub $s0, $s0, $s0
 
 LoopStart1:
-
-
-
 la $a0, prompt
 #stores the address of the string prompt into $a0
-
 addi $v0, $zero, 4
 syscall
 #calls the print string code and prints out the currernt string stored in $a0
 #these 2 lines are cout
-
-
 addi $v0, $zero, 5
 syscall
 #this is how to read user input
 #these 2 lines are equivillant of cin for ints
-
-
 beq $v0, $zero, EndLoop1
 #if the unput, $v0, is equal to 0, we end the loop by jumping to EndLoop1
 
-sgtu $t0, $v0, 99
-#assuming the input is not 0, we then check if the absolute value of the input is greater then 99
-#if $v0>99 then $t0=1
+slti $t0 $v0 -99
+slti $t1 $v0 100
+xor $t0 $t0 $t1
+bne $t0 $zero continue
+la $a0 error
+addi $v0 $zero 4
+syscall
+j loop
 
-
-beq $t0, 1, LoopStart1
-
-
-
+continue:
 add $s0, $s0, $v0
-j LoopStart1
+j loop
 
 EndLoop1:
-
 
 #print out the sum
 
@@ -61,9 +52,6 @@ addi $v0, $zero, 4
 syscall
 #calls the print string code and prints out the currernt string stored in $a0
 #these 2 lines are cout
-
-
-
 la $a0, ($s0)
 #stores the address of the sum $s0 into $a0
 

@@ -6,55 +6,45 @@
 #Note: You must verify that the number is between -99 and +99. For the purposes of this program, consider single digit numbers as the same as two digit numbers.
 
 .data
-
 prompt: .asciiz "Enter a number between -99 and 99: \n"
 invalid: .asciiz "Invalid input: "
 result: .asciiz "The sum is: "
-
 .text
-sub $s0, $s0, $s0
-
 LoopStart1:
+# Print prompt
 la $a0, prompt
-#stores the address of the string prompt into $a0
-addi $v0, $zero, 4
+addi $v0, $zero 4
 syscall
-#calls the print string code and prints out the currernt string stored in $a0
-#these 2 lines are cout
-addi $v0, $zero, 5
+# Read integer from user
+addi $v0, $zero 5
 syscall
-#this is how to read user input
-#these 2 lines are equivillant of cin for ints
+ # Check if input is 0
 beq $v0, $zero, EndLoop1
-#if the unput, $v0, is equal to 0, we end the loop by jumping to EndLoop1
-
-slti $t0 $v0 -99
-slti $t1 $v0 100
-xor $t0 $t0 $t1
-bne $t0 $zero continue
-la $a0 error
-addi $v0 $zero 4
-syscall
-j loop
-
-continue:
+# Check if input is between -99 and 99
+slti $t0, $v0, -99 #Set $t0 to 1 if $v0 < -99, if not then zero
+slti $t1, $v0, 100 # Set $t1 to 1 if $v0 < 100,  if not then zero
+xor $t0, $t0, $t1 #Like a typical xor gate: XOR $t0 with $t1 to get 1 if either is 1 but not both
+bne $t0, $zero, Forward
+Forward: 
+ # Add input to sum
 add $s0, $s0, $v0
-j loop
+j LoopStart1
+
+#if it was out of range
+#Print error message
+la $a0, invalid
+li $v0, 4
+syscall
+j LoopStart1
 
 EndLoop1:
-
-#print out the sum
-
+# Print result
 la $a0, result
-#stores the address of the string result into $a0
-
-addi $v0, $zero, 4
+addi $v0, $zero 4
 syscall
-#calls the print string code and prints out the currernt string stored in $a0
-#these 2 lines are cout
-la $a0, ($s0)
+# Print sum use moved instead of li because it appeared to be our issue
+move $a0 $s0
 #stores the address of the sum $s0 into $a0
-
 addi $v0, $zero, 1
 syscall
 #calls the print string code and prints out the currernt string stored in $a0

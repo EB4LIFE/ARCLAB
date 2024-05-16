@@ -108,7 +108,7 @@ mflo $s0
 #s0 < 0 aka (-1)
 slt $t0, $s0, $zero
 
-#if t0 is not zero meaning postive so it is negative then skip to print2 (meaning goto enter opcode)
+#if t0 is not zero (meaning postive) so t0 is negative then skip to print2 (meaning goto enter opcode)
 bne $t0, $zero, print2
 
 #otherwise if it is postive and hi as we know is negative then it is overflow

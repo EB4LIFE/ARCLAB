@@ -33,13 +33,14 @@ add $s1, $zero, $v0
 
 # Check which op code was input
 if:
-li $t0, 42 # '*' asciiz 42
+# '*' asciiz 42
+li $t0, 42 
 beq $s2, $t0, multiply
-
-li $t0, 45 # '-' asciiz 45
+ # '-' asciiz 45
+li $t0, 45
 beq $s2, $t0, subtract
-
-li $t0, 43 # '+' asciiz 43
+ # '+' asciiz 43
+li $t0, 43
 beq $s2, $t0, sum
 
 # Op Code not recognised

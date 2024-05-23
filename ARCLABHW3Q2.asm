@@ -1,14 +1,16 @@
 #Eitan Brown 
 #346816549 
-#done with Yoni Rubin
+#Yoni Rubin
+#648831051
 #Arthmetic sequence / Geometric sequence
 
 .data
 #Arthmetic: 3, 9, 15, 21, 27 -- comon dif
 #Geometric: 2, 4, 8, 16, 32 -- comon ratio
-#Neither: 5, 4, 3, 2, 7
-list: .byte 5, 4, 3, 2, 7
-size: .word 5
+#Neither: 4, 21, 19, 2, 88
+list: .byte 3, 10, 31,93,29
+size: .word 4
+
 #message for final print
 Arit: .asciiz "d = "
 Geo: .asciiz "q = "
@@ -29,7 +31,7 @@ lb $t2, 1($a0)
 #subtracting t2 and t1 to get the difference of the two elements into t0
 sub $t0, $t2, $t1 
 #s1 is our counter and at this point we counted the first two element of a0 so s1 = 2
-li $s1, 2 
+li $s1, 2
 
 ArithmeticLoop:
 #if our counter s1 aka 'i' has reached end of list aka no longer i < size
@@ -53,6 +55,8 @@ notAr:
 #this line is for the counter for if the sequence is neither Arithmetic nor geo 
 #which is why we now jump to geo loop
 addi $s3, $s3, 1 
+
+
 j Geometric
 
 endAr:
@@ -68,12 +72,14 @@ syscall
 li $a0, '\n'
 li $v0, 11
 syscall
+j exit
 
 Geometric:
 #all about finding the common ration between two elements
 #if it remains the same throughout the seuqence it is geometric
 #Note: The ratio should be a clean number (no remainder, decimal) 
 #must compare two at a time
+
 lb $t1, 0($a0)
 lb $t2, 1($a0)
 #this line will find the ratio
@@ -83,14 +89,17 @@ div $t2, $t1
 #hi reg is the remainder if it exists
 mflo $t3 
 mfhi $t4 
+
 #if the remainder was not simple as stated above we know its not a geo
 bne $t4 $zero notGeo
+
 #As before a counter of +=2 for elements of the list 
-li $s2, 2 
+li $s2, 3
 
 geoLoop:
 #if our counter s2 aka 'i' has reached end of list aka no longer i < size
 beq $a1, $s2, endGeo 
+
 addi $a0, $a0, 1
 lb $t1, 0($a0) 
 lb $t2, 1($a0)
@@ -104,8 +113,10 @@ mfhi $t6
 bne $t6, $t4, notGeo 
 #ratio is not the same 
 bne $t5, $t3, notGeo
+
 #increment the 'i' aka s2 by and go back to beg of loop until beq cond is satitsfied
-addi $s1, $s1, 1 
+addi $s2, $s2, 1 
+
 j geoLoop
 
 notGeo:
@@ -119,10 +130,12 @@ endGeo:
 la $a0, Geo
 li $v0, 4
 syscall
+
 #printing q value
 add $a0, $0, $t3
 li $v0, 1
 syscall
+
 #printing new line
 li $a0, '\n'
 li $v0, 11

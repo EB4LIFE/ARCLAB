@@ -1,7 +1,3 @@
-#Eitan Brown
-#346816549
-#Done with Yoni Rubin
-
 #Eitan Brown 
 #346816549 
 #done with Yoni Rubin
